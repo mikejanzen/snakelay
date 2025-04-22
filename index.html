@@ -76,6 +76,25 @@
       gap:.6rem;
       visibility:hidden;
     }
+    #birthday-message {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.7);
+      color:#fff;
+      font-size:2.5rem;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      gap:.6rem;
+      visibility:hidden;
+      animation: dance 1s infinite;
+    }
+    @keyframes dance {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
   </style>
 </head>
 <body>
@@ -92,12 +111,15 @@
       <span id="msgText">Press SPACE to start</span>
       <small>Use arrow keys to move, WASD for player 2</small>
     </div>
+    <div id="birthday-message">
+      <span>🎈🎉 Happy Birthday Lay!! 🎉🎈</span>
+    </div>
   </div>
 
   <!-- Background music (Replace with your own .mp3 in assets/music/) -->
-  <audio crossorigin="anonymous" id="bgMusic" src="assets/music/bg-weezer.mp3" loop preload="auto" autobuffer controls></audio>
+  <audio crossorigin="anonymous" id="bgMusic" src="assets/music/bg-weezer.mp3" loop preload="auto" autobuffer></audio>
   <!-- Gulping sound effect -->
-  <audio crossorigin="anonymous" id="gulpSound" src="assets/sounds/gulp.mp3" preload="auto" autobuffer controls></audio>
+  <audio crossorigin="anonymous" id="gulpSound" src="assets/sounds/gulp.mp3" preload="auto" autobuffer></audio>
 
 <script>
 /* =========================================================
@@ -222,6 +244,13 @@ class Snake {
       placeFruit();  // Add a new fruit
       // Update score display
       document.getElementById("score").textContent = this.body.length;
+      // Check for birthday celebration
+      if (this.body.length === 15) {
+        document.getElementById("birthday-message").style.visibility = "visible";
+        setTimeout(() => {
+          document.getElementById("birthday-message").style.visibility = "hidden";
+        }, 3000);
+      }
       // Play gulping sound
       const gulpSound = document.getElementById("gulpSound");
       gulpSound.currentTime = 0;  // Reset sound to start
